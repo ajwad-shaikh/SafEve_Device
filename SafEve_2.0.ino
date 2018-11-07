@@ -8,11 +8,11 @@
 
 #include "Adafruit_FONA.h"
 
-#define EVE_RX 10
-#define EVE_TX 11
-#define EVE_RST 12
-#define button 9
-#define button2 8
+#define EVE_RX 10 // Digital pin of Arduino that is mapped to receive from SIM Module
+#define EVE_TX 11 // Digital pin of Arduino that is mapped to transmit to SIM Module
+#define EVE_RST 12 // Digital pin of Arduino sends a reset pulse to initialize the SIM Module
+#define button 9 // Connected to the trigger to listen to distress
+#define button2 8 // Set 'LOW' to make 'button' low on trigger 
 unsigned long previousTenthSecondMillis = 0L;
 long tenthSecond = 100UL;
 byte buttonStillDown = 0;
@@ -50,19 +50,18 @@ void setup() {
   char imei[16] = {0}; // MUST use a 16 character buffer for IMEI!
   uint8_t imeiLen = eve.getIMEI(imei);
   if (imeiLen > 0) {
-    Serial.print("Modu
-    le IMEI: "); Serial.println(imei);
+    Serial.print("Module IMEI: "); 
+    Serial.println(imei);
   }
   pinMode(button, INPUT_PULLUP);
   pinMode(button2, OUTPUT);
   digitalWrite(button2, LOW);
-  //triggered();
 }
 
 void loop() {
   if (millis() - previousTenthSecondMillis >= tenthSecond) {
-
-    // check the button (pin 9 --> button --> gnd)
+    
+    // check the button (pin 9 --> button --> gnd (pin 8) )
     if (!digitalRead(button)) {
       if ((buttonStillDown++ > 0 ) && (buttonStillDown < 3)) {
 
@@ -94,7 +93,8 @@ void flushSerial() {
 void triggered()
 {
   char message[141];
-  const char sendto[] = "9869669086";
+  const char sendto[] = "98xxxxxxxx"; // Number to which the SMS is to be delivered.
+  // Change the above char string to a valid number before running the code.
   flushSerial();
   Serial.print(F("Send to #"));
   //readline(sendto, 20);
