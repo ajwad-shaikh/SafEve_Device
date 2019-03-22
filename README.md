@@ -1,5 +1,5 @@
-# SafeEve Device
-Arduino sketch for SafeEve device that runs on a Nano coupled with a SIM800L module
+# SafEve Device
+Arduino sketch for SafEve device that runs on a Nano coupled with a SIM800L module
 
 SafEve is a safety device conceptualised during the National Innovation Drive Hackathon 2017, at PDPM Indian Institute of Information Technology, Design & Manufacturing, Jabalpur.
 
